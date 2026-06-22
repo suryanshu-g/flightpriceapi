@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: travel-predictor-service
+
+spec:
+  type: NodePort
+
+  selector:
+    app: travel-predictor
+
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 30080

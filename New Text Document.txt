@@ -1,0 +1,3 @@
+artifacts has models
+app.py has api, run it by typing "Python app.py"
+then run frontend-> index.html-> live server ,  ucan run the model

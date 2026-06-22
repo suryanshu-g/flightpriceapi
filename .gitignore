@@ -1,0 +1,24 @@
+# Virtual environments
+airflow_env/
+ml_env/
+venv/
+.venv/
+
+# Airflow
+airflow/logs/
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Environment files
+.env

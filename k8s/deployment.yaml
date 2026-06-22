@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: travel-predictor
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: travel-predictor
+
+  template:
+    metadata:
+      labels:
+        app: travel-predictor
+
+    spec:
+      containers:
+      - name: travel-predictor
+
+        image: travel-predictor:v1
+
+        imagePullPolicy: Never
+
+        ports:
+        - containerPort: 5000

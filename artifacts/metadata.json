@@ -1,0 +1,88 @@
+{
+  "model_name": "Random Forest",
+  "best_params": {
+    "max_depth": 10,
+    "max_features": "sqrt",
+    "min_samples_leaf": 9,
+    "n_estimators": 182
+  },
+  "features": [
+    "flightClass_ord",
+    "from_enc",
+    "to_enc",
+    "agency_enc",
+    "age",
+    "gender_enc",
+    "month",
+    "day_of_week",
+    "is_weekend",
+    "quarter",
+    "route_mean_price",
+    "route_median_price",
+    "route_min_price",
+    "route_max_price",
+    "route_count",
+    "route_price_range",
+    "agency_mean_price"
+  ],
+  "test_metrics": {
+    "label": "Random Forest",
+    "R2": 0.9911,
+    "MAE": 27.61,
+    "RMSE": 34.14,
+    "MAPE": 3.37
+  },
+  "cv_r2": 0.9905,
+  "train_rows": 190429,
+  "class_map": {
+    "economic": 0,
+    "premium": 1,
+    "firstClass": 2
+  },
+  "global_route": {
+    "route_mean_price": 956.775033634583,
+    "route_median_price": 899.6,
+    "route_min_price": 301.51,
+    "route_max_price": 1754.17,
+    "route_count": 1.0,
+    "route_price_range": 1452.66
+  },
+  "global_agency": {
+    "agency_mean_price": 956.775033634583
+  },
+  "le_classes": {
+    "from": [
+      "Aracaju (SE)",
+      "Brasilia (DF)",
+      "Campo Grande (MS)",
+      "Florianopolis (SC)",
+      "Natal (RN)",
+      "Recife (PE)",
+      "Rio de Janeiro (RJ)",
+      "Salvador (BH)",
+      "Sao Paulo (SP)"
+    ],
+    "to": [
+      "Aracaju (SE)",
+      "Brasilia (DF)",
+      "Campo Grande (MS)",
+      "Florianopolis (SC)",
+      "Natal (RN)",
+      "Recife (PE)",
+      "Rio de Janeiro (RJ)",
+      "Salvador (BH)",
+      "Sao Paulo (SP)"
+    ],
+    "agency": [
+      "CloudFy",
+      "FlyingDrops",
+      "Rainbow"
+    ],
+    "gender": [
+      "female",
+      "male",
+      "none"
+    ]
+  },
+  "use_scaler": false
+}

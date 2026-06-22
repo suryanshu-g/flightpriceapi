@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Flight Price Predictor</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#0f172a);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+}
+
+.card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:24px;
+    padding:40px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.3);
+}
+
+.hero{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#cbd5e1;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    margin-bottom:8px;
+    color:#cbd5e1;
+    font-size:14px;
+}
+
+select,
+input{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.15);
+    color:white;
+    padding:14px;
+    border-radius:12px;
+    outline:none;
+}
+
+option{
+    color:black;
+}
+
+.predict-btn{
+    width:100%;
+    margin-top:30px;
+    border:none;
+    padding:16px;
+    border-radius:14px;
+    background:#2563eb;
+    color:white;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.predict-btn:hover{
+    background:#1d4ed8;
+}
+
+.predict-btn:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+}
+
+.result-card{
+    display:none;
+    margin-top:30px;
+    background:rgba(255,255,255,0.08);
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+}
+
+.price{
+    font-size:48px;
+    font-weight:700;
+    color:#22c55e;
+    margin:15px 0;
+}
+
+.loading{
+    display:none;
+    text-align:center;
+    margin-top:20px;
+}
+
+.spinner{
+    width:40px;
+    height:40px;
+    border:4px solid rgba(255,255,255,0.2);
+    border-top:4px solid white;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:auto;
+}
+
+@keyframes spin{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+.error{
+    display:none;
+    margin-top:20px;
+    background:#dc2626;
+    padding:12px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.swap-btn{
+    width:50px;
+    height:50px;
+    border:none;
+    border-radius:50%;
+    background:#2563eb;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    margin:auto;
+    display:block;
+}
+
+.footer{
+    text-align:center;
+    margin-top:20px;
+    color:#94a3b8;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:30px;
+}
+
+.price{
+    font-size:34px;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<div class="hero">
+<h1>✈ Flight Price Predictor</h1>
+<p>Predict airfare using Machine Learning</p>
+</div>
+
+<div class="form-grid">
+
+<div class="input-group">
+<label>From City</label>
+<select id="fromCity">
+<option>Aracaju (SE)</option>
+<option>Brasilia (DF)</option>
+<option>Campo Grande (MS)</option>
+<option>Florianopolis (SC)</option>
+<option>Natal (RN)</option>
+<option>Recife (PE)</option>
+<option>Rio de Janeiro (RJ)</option>
+<option>Salvador (BH)</option>
+<option>Sao Paulo (SP)</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>To City</label>
+<select id="toCity">
+<option>Aracaju (SE)</option>
+<option>Brasilia (DF)</option>
+<option>Campo Grande (MS)</option>
+<option>Florianopolis (SC)</option>
+<option>Natal (RN)</option>
+<option>Recife (PE)</option>
+<option>Rio de Janeiro (RJ)</option>
+<option>Salvador (BH)</option>
+<option>Sao Paulo (SP)</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>&nbsp;</label>
+<button class="swap-btn" onclick="swapCities()">⇄</button>
+</div>
+
+<div class="input-group">
+<label>Flight Type</label>
+<select id="flightType">
+<option value="economic">Economic</option>
+<option value="premium">Premium</option>
+<option value="firstClass">First Class</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Agency</label>
+<select id="agency">
+<option value="CloudFy">CloudFy</option>
+<option value="FlyingDrops">FlyingDrops</option>
+<option value="Rainbow">Rainbow</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Travel Date</label>
+<input type="date" id="travelDate">
+</div>
+
+<div class="input-group">
+<label>Age</label>
+<input type="number" id="age" value="35">
+</div>
+
+<div class="input-group">
+<label>Gender</label>
+<select id="gender">
+<option value="male">Male</option>
+<option value="female">Female</option>
+<option value="none">Prefer Not To Say</option>
+</select>
+</div>
+
+</div>
+
+<button id="predictBtn" class="predict-btn">
+Predict Price
+</button>
+
+<div class="loading" id="loading">
+<div class="spinner"></div>
+<p style="margin-top:10px;">Analyzing Route...</p>
+</div>
+
+<div class="error" id="errorBox"></div>
+
+<div class="result-card" id="resultCard">
+
+<h2>Estimated Flight Price</h2>
+
+<div class="price" id="price">
+BRL 0
+</div>
+
+<p id="route"></p>
+<p id="flight"></p>
+<p id="model"></p>
+<p id="accuracy"></p>
+
+</div>
+
+<div class="footer">
+Random Forest Flight Prediction Model
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/*
+=================================================
+SET YOUR API URL HERE
+=================================================
+*/
+
+const API_BASE_URL = "http://127.0.0.1:5000";
+
+/*
+=================================================
+SWAP
+=================================================
+*/
+
+function swapCities(){
+
+    const from=document.getElementById("fromCity");
+    const to=document.getElementById("toCity");
+
+    const temp=from.value;
+    from.value=to.value;
+    to.value=temp;
+
+}
+
+/*
+=================================================
+PREDICT
+=================================================
+*/
+
+document
+.getElementById("predictBtn")
+.addEventListener("click",predictPrice);
+
+async function predictPrice(){
+
+    const loading=document.getElementById("loading");
+    const result=document.getElementById("resultCard");
+    const error=document.getElementById("errorBox");
+    const button=document.getElementById("predictBtn");
+
+    error.style.display="none";
+    result.style.display="none";
+    loading.style.display="block";
+
+    button.disabled=true;
+
+    try{
+
+        const payload={
+
+            from_city:
+            document.getElementById("fromCity").value,
+
+            to_city:
+            document.getElementById("toCity").value,
+
+            flight_type:
+            document.getElementById("flightType").value,
+
+            agency:
+            document.getElementById("agency").value,
+
+            date:
+            document.getElementById("travelDate").value,
+
+            age:
+            parseInt(document.getElementById("age").value),
+
+            gender:
+            document.getElementById("gender").value
+        };
+
+        const response=await fetch(
+            `${API_BASE_URL}/predict`,
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify(payload)
+            }
+        );
+
+        const data=await response.json();
+
+        if(!response.ok){
+            throw new Error(data.error || "Prediction failed");
+        }
+
+        document.getElementById("price")
+        .innerText=`BRL ${data.predicted_price}`;
+
+        document.getElementById("route")
+        .innerText=`Route: ${data.route}`;
+
+        document.getElementById("flight")
+        .innerText=`Class: ${data.flight_type}`;
+
+        document.getElementById("model")
+        .innerText=`Model: ${data.model}`;
+
+        document.getElementById("accuracy")
+        .innerText=`R² Score: ${data.test_r2}`;
+
+        result.style.display="block";
+
+    }
+    catch(err){
+
+        error.innerText=err.message;
+        error.style.display="block";
+
+    }
+    finally{
+
+        loading.style.display="none";
+        button.disabled=false;
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
