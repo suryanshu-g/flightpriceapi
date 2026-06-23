@@ -1,4 +1,3 @@
-:::writing{variant="document" id="42817"}
 pipeline {
     agent any
 
@@ -22,7 +21,5 @@ pipeline {
                 bat 'if exist train_model.py (echo train_model.py found)'
             }
         }
-
     }
 }
-:::
