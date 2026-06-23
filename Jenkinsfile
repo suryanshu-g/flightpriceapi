@@ -5,22 +5,20 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo 'Repository checked out successfully'
+                echo 'Checkout successful'
             }
         }
 
-        stage('Project Structure') {
+        stage('Build Docker Image') {
             steps {
-                sh 'ls -la'
+                sh 'docker build -t travel-predictor:latest .'
             }
         }
 
-        stage('Verify Python Files') {
+        stage('Verify Image') {
             steps {
-                sh 'test -f app.py && echo "app.py found"'
-                sh 'test -f train_model.py && echo "train_model.py found"'
+                sh 'docker images'
             }
         }
-
     }
 }
