@@ -1,0 +1,347 @@
+✈️ Flight Price Prediction MLOps Platform
+
+An end-to-end MLOps project that predicts flight prices using Machine Learning while demonstrating modern MLOps practices including experiment tracking, workflow orchestration, containerization, CI/CD, and Kubernetes deployment.
+
+🚀 Project Overview
+
+This project was built to simulate a real-world machine learning production system rather than just a notebook-based model.
+
+The platform:
+
+Performs exploratory data analysis on travel datasets
+Trains and evaluates machine learning models
+Tracks experiments using MLflow
+Serves predictions through a Flask REST API
+Provides a user-friendly frontend interface
+Automates retraining workflows using Apache Airflow
+Containerizes applications using Docker
+Deploys services on Kubernetes (Minikube)
+Implements CI/CD using Jenkins
+
+The objective is to demonstrate the complete machine learning lifecycle from data ingestion to scalable deployment.
+
+🏗️ Architecture
+Travel Dataset
+      │
+      ▼
+Data Processing & Feature Engineering
+      │
+      ▼
+Model Training (Random Forest)
+      │
+      ▼
+MLflow Experiment Tracking
+      │
+      ▼
+Flask Prediction API
+      │
+      ▼
+Docker Container
+      │
+      ▼
+Kubernetes Deployment
+      │
+      ▼
+Frontend Interface
+📂 Project Structure
+flightpriceapi/
+│
+├── dataset/
+│   ├── flights.csv
+│   ├── hotels.csv
+│   └── users.csv
+│
+├── artifacts/
+│   ├── model.pkl
+│   ├── scaler.pkl
+│   ├── feature_columns.pkl
+│   └── hotel_stats.csv
+│
+├── frontend/
+│   └── Frontend application
+│
+├── airflow/
+│   ├── dags/
+│   │   └── flight_training_dag.py
+│   └── compose.yaml
+│
+├── k8s/
+│   ├── deployment.yaml
+│   └── service.yaml
+│
+├── jenkins/
+│   └── Jenkins configuration files
+│
+├── train_model.py
+├── app.py
+├── Dockerfile
+├── Jenkinsfile
+├── requirements.txt
+└── README.md
+📊 Dataset
+
+The project uses a Brazilian travel booking dataset containing:
+
+Flights Dataset
+Feature	Description
+from	Source city
+to	Destination city
+flightType	Economic / Premium / First Class
+distance	Travel distance
+time	Flight duration
+agency	Booking agency
+price	Flight ticket price
+Hotels Dataset
+
+Contains hotel bookings and destination information.
+
+Users Dataset
+
+Contains demographic information such as:
+
+Age
+Gender
+User ID
+🔍 Exploratory Data Analysis
+
+Major insights discovered:
+
+Distance vs Price
+
+Distance showed a strong positive relationship with flight prices.
+
+Flight Type Impact
+
+Price ordering:
+
+First Class > Premium > Economic
+Duration Impact
+
+Longer flight durations generally resulted in higher prices.
+
+Agency Analysis
+
+Different booking agencies exhibited different booking patterns and pricing distributions.
+
+Bias Analysis
+
+Gender and age were analyzed to ensure no meaningful pricing bias existed in the dataset.
+
+🤖 Machine Learning Model
+Algorithms Evaluated
+Linear Regression
+Ridge Regression
+Random Forest Regressor
+XGBoost Regressor
+Final Selected Model
+
+✅ Random Forest Regressor
+
+Reasons:
+
+High predictive accuracy
+Robust performance
+Low error metrics
+Stable production behavior
+📈 Model Performance
+
+Example performance metrics:
+
+Metric	Score
+R² Score	~0.99
+MAE	Low
+RMSE	Low
+⚙️ Feature Engineering
+
+The following features were created:
+
+Day of Week
+Month
+Route Encoding
+Flight Type Encoding
+Agency Encoding
+Distance Features
+Duration Features
+
+Categorical variables were transformed using encoding techniques before training.
+
+📦 MLflow Experiment Tracking
+
+MLflow was integrated to:
+
+Track experiments
+Compare model versions
+Log parameters
+Log evaluation metrics
+Store artifacts
+
+Run MLflow UI:
+
+mlflow ui
+
+Access:
+
+http://localhost:5000
+🌐 REST API
+
+The trained model is exposed using Flask.
+
+Health Check
+GET /health
+
+Response:
+
+{
+  "status": "ok"
+}
+Prediction Endpoint
+POST /predict
+
+Sample Request:
+
+{
+  "from": "Brasilia",
+  "to": "Natal",
+  "flightType": "economic"
+}
+
+Sample Response:
+
+{
+  "predicted_price": 719.43,
+  "currency": "BRL"
+}
+🎨 Frontend
+
+The frontend provides:
+
+Route selection
+Flight type selection
+Price prediction display
+User-friendly visualization
+
+This allows non-technical users to interact with the machine learning model.
+
+🔄 Apache Airflow
+
+Airflow was implemented to automate ML workflows.
+
+DAG Responsibilities
+Trigger training jobs
+Execute model retraining
+Manage workflow scheduling
+Monitor execution status
+
+Run Airflow:
+
+docker compose up
+
+Access:
+
+http://localhost:8080
+🐳 Dockerization
+
+The application is fully containerized.
+
+Build Image:
+
+docker build -t flight-price-api .
+
+Run Container:
+
+docker run -p 5000:5000 flight-price-api
+☸️ Kubernetes Deployment
+
+The project is deployed using Kubernetes on Minikube.
+
+Deployment
+kubectl apply -f k8s/deployment.yaml
+Service
+kubectl apply -f k8s/service.yaml
+Verify
+kubectl get pods
+kubectl get services
+Access Application
+minikube service flight-price-service --url
+🔧 Jenkins CI/CD Pipeline
+
+The Jenkins pipeline automates:
+
+Source code checkout
+Dependency installation
+Model training
+Docker image build
+Docker image push
+Kubernetes deployment
+
+Pipeline definition:
+
+Jenkinsfile
+
+Benefits:
+
+Faster deployments
+Automated testing
+Reproducible builds
+Reduced manual effort
+🛠️ Installation
+Clone Repository
+git clone <repository-url>
+cd flightpriceapi
+Create Virtual Environment
+python -m venv venv
+Activate Environment
+
+Windows:
+
+venv\Scripts\activate
+
+Linux/Mac:
+
+source venv/bin/activate
+Install Dependencies
+pip install -r requirements.txt
+▶️ Run Locally
+Train Model
+python train_model.py
+Start API
+python app.py
+
+Application:
+
+http://localhost:5000
+📌 Key Technologies
+Python
+Pandas
+NumPy
+Scikit-Learn
+Flask
+MLflow
+Apache Airflow
+Docker
+Kubernetes
+Jenkins
+Git
+Minikube
+🎯 Learning Outcomes
+
+Through this project, I gained hands-on experience in:
+
+End-to-End Machine Learning Pipelines
+Production ML Systems
+Experiment Tracking
+Model Deployment
+REST API Development
+Workflow Automation
+Containerization
+Kubernetes Orchestration
+CI/CD Implementation
+MLOps Best Practices
+📈 Future Enhancements
+Model Registry Integration
+Automated Model Monitoring
+Drift Detection
+Feature Store Integration
+Cloud Deployment (AWS/GCP/Azure)
+Blue-Green Deployments
+Real-Time Prediction Pipelines
